@@ -58,19 +58,41 @@
             });
             
             $("#submit").click(function (e) {
-                console.log("main fom submited");
+                e.preventDefault();
                 var isRutValid = Rut($('#inputRut').val());
                 var isNameValid = validateName($('#inputName').val());
                 var isDoBValid = validateDate($('#inputDateOfBirth').val());
-                console.log($('#clientType').val());
                 var isCliTypeValid = ($('#clientType').val() == null || $('#clientType').val() == '') ? false : true;
                 if (!isRutValid || !isNameValid || !isDoBValid || !isCliTypeValid) {
-                    e.preventDefault();
                     alert("Validacion ha fallado");
                     $('#inputRut').trigger('input');
                     $('#inputName').trigger('input');
                     $('#inputDateOfBirth').trigger('change');
                     return false;
+                }else{
+                    $.ajax({
+                        url: 'PaymentRedirectServlet',
+                        data: {clientRut: $('#inputRut').val()},
+                        type: "POST",
+                        success: function(data){
+                            if(data == "success"){
+                                if($('input[name=inputCreditCard]:checked').val() == "yes"){
+                                    console.log($("#clientType").val());
+                                    $(location).attr('href', 'tarjetaweb2.jsp');
+                                }else{
+                                    console.log($("#clientType").val());
+                                    $(location).attr('href', 'mensaje.jsp');
+                                }
+                            }else{
+                                $('#inputRut').val('');
+                                $('#inputRut').focus();
+                                $('#inputName').val('');
+                                $('#inputDateOfBirth').val('');
+                                $('#clientType').val('');
+                                alert("Rut no está registrado en el sistema.");
+                            }
+                        }
+                    });
                 }
             }); 
 
