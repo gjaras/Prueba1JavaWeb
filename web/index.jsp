@@ -33,11 +33,11 @@
 
             });
 
-            $('#inputName').on('input', function () {
+            $('#inputName').on('blur', function () {
                 if (!validateName($('#inputName').val())) {
                     $('#inputName').css({'border': '1px !important', 'border-color': 'red'});
                     $('#nameError').show();
-                }else{
+                } else {
                     $('#inputName').removeAttr('style');
                     $('#nameError').hide();
                 }
@@ -51,12 +51,12 @@
                 if ($('#inputDateOfBirth').val() == '' || !validateDate($('#inputDateOfBirth').val())) {
                     $('#inputDateOfBirth').css({'border': '1px !important', 'border-color': 'red'});
                     $('#dobError').show();
-                }else{
+                } else {
                     $('#inputDateOfBirth').removeAttr('style');
                     $('#dobError').hide();
                 }
             });
-            
+
             $("#submit").click(function (e) {
                 e.preventDefault();
                 var isRutValid = Rut($('#inputRut').val());
@@ -69,21 +69,21 @@
                     $('#inputName').trigger('input');
                     $('#inputDateOfBirth').trigger('change');
                     return false;
-                }else{
+                } else {
                     $.ajax({
                         url: 'PaymentRedirectServlet',
                         data: {clientRut: $('#inputRut').val()},
                         type: "POST",
-                        success: function(data){
-                            if(data == "success"){
-                                if($('input[name=inputCreditCard]:checked').val() == "yes"){
+                        success: function (data) {
+                            if (data == "success") {
+                                if ($('input[name=inputCreditCard]:checked').val() == "yes") {
                                     console.log($("#clientType").val());
                                     $(location).attr('href', 'tarjetaweb2.jsp');
-                                }else{
+                                } else {
                                     console.log($("#clientType").val());
                                     $(location).attr('href', 'mensaje.jsp');
                                 }
-                            }else{
+                            } else {
                                 $('#inputRut').val('');
                                 $('#inputRut').focus();
                                 $('#inputName').val('');
@@ -94,26 +94,26 @@
                         }
                     });
                 }
-            }); 
+            });
 
 
         });
-        
-        function validateDate(dateS){
+
+        function validateDate(dateS) {
             var date = new Date(dateS);
             var today = new Date();
-            if(date > today){
+            if (date > today) {
                 return false;
-            }else{
+            } else {
                 return true;
             }
         }
-        
-        function validateName(name){
+
+        function validateName(name) {
             var stringArr = name.trim().split(" ");
-            if (stringArr.length < 3){
+            if (stringArr.length < 3) {
                 return false;
-            }else{
+            } else {
                 return true;
             }
         }
@@ -121,8 +121,8 @@
 
     <body>
         <form class="container" id="mainForm">
-            <h1 class="h3 mb-3 font-weight-normal">Por favor ingrese sus Credenciales</h1>
             <div id="mainContainer">
+                <h1 class="h3 mb-3 font-weight-normal">Por favor ingrese sus Credenciales</h1>
                 <div class="row align-items-center">
                     <div class="col-md-2 offset-md-2">
                         <label for="inputRut">Rut</label>
@@ -200,7 +200,7 @@
     .row{
         margin: 2% 0 2% 0
     }
-    
+
     #mainContainer{
         margin: auto
     }
