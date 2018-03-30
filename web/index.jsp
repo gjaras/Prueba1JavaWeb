@@ -20,7 +20,7 @@
             $('#rutError').hide();
             $('#nameError').hide();
             $('#dobError').hide();
-            $('#inputRut').on('input', function () {
+            $('#inputRut').on('blur', function () {
                 var rut = $('#inputRut').val();
                 if (!Rut(rut)) {
                     console.log("error");
