@@ -47,7 +47,8 @@
             });
 
             $('#inputDateOfBirth').on('change', function () {
-                if (!validateDate($('#inputDateOfBirth').val())) {
+
+                if ($('#inputDateOfBirth').val() == '' || !validateDate($('#inputDateOfBirth').val())) {
                     $('#inputDateOfBirth').css({'border': '1px !important', 'border-color': 'red'});
                     $('#dobError').show();
                 }else{
@@ -56,18 +57,19 @@
                 }
             });
             
-            $("form").submit(function (e) {
+            $("#submit").click(function (e) {
                 console.log("main fom submited");
                 var isRutValid = Rut($('#inputRut').val());
                 var isNameValid = validateName($('#inputName').val());
                 var isDoBValid = validateDate($('#inputDateOfBirth').val());
-                var isCliTypeValid = !$('#clientType').val().empty();
+                console.log($('#clientType').val());
+                var isCliTypeValid = ($('#clientType').val() == null || $('#clientType').val() == '') ? false : true;
                 if (!isRutValid || !isNameValid || !isDoBValid || !isCliTypeValid) {
                     e.preventDefault();
                     alert("Validacion ha fallado");
-                    $('#inputRut').change();
-                    $('#inputName').change();
-                    $('#inputDateOfBirth').change();
+                    $('#inputRut').trigger('input');
+                    $('#inputName').trigger('input');
+                    $('#inputDateOfBirth').trigger('change');
                     return false;
                 }
             }); 
