@@ -18,8 +18,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author cabarzua
  */
-@WebServlet(name = "LoginServlet", urlPatterns = {"/LoginServlet"})
-public class LoginServlet extends HttpServlet {
+@WebServlet(name = "PaymentRedirectServlet", urlPatterns = {"/PaymentRedirectServlet"})
+public class PaymentRedirectServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -73,21 +73,15 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String mail=request.getParameter("email");
-        String pass=request.getParameter("password");
-        if (!validaPassword(mail,pass)){
-            response.setContentType("text/xml;charset=UTF-8");
-            response.getWriter().write("<message><msg1>Usuario o Clave Incorrecta</msg1><msg2>val2</msg2></message>");
+        String rut=request.getParameter("clientRut");
+        rut = rut.replace(".", "").trim();
+        if(rut.equalsIgnoreCase("11111111-1") || rut.equalsIgnoreCase("22222222-2") || rut.equalsIgnoreCase("3396160-k.")){
+            response.getWriter().print("success");
+        }else{
+            response.getWriter().print("error");
         }
-        else
-            response.getWriter().print("");
-    }
-    private boolean validaPassword(String mail,String pass){
-        if (pass.equals("7110eda4d09e062aa5e4a390b0a572ac0d2c0220"))
-            return true;
-        else
-            return false;
-    }
+    } 
+
     /**
      * Returns a short description of the servlet.
      *
