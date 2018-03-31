@@ -17,6 +17,24 @@ https://www.cssscript.com/minimal-credit-card-input-validation-library-creditcar
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Tarjeta web</title>      
     </head>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#cardError').hide();
+            console.log("pagina cargada");
+            $('#cardNum').on('blur', function () {
+                var cardNum = $('#inputCardNum').val();
+                if (!valid_credit_card(cardNum)) {
+                    console.log("error");
+                    $('#inputCardNum').css({'border': '1px !important', 'border-color': 'red'});
+                    $('#cardError').show();
+                } else {
+                    $('#inputCardNum').removeAttr('style');
+                    $('#cardError').hide();
+                }
+
+            });
+        });
+    </script>
 
 
     <body>
@@ -27,7 +45,8 @@ https://www.cssscript.com/minimal-credit-card-input-validation-library-creditcar
             <div class="card-container">
                 <!--- ".card-type" is a sprite used as a background image with associated classes for the major card types, providing x-y coordinates for the sprite --->
                 <div class="card-type"></div>
-                <input placeholder="0000 0000 0000 0000" onkeyup="$cc.validate(event)" />
+                <input placeholder="0000 0000 0000 0000" name="inputCardNum" id="inputCardNum" />
+                <small id="cardError" class="form-text text-muted" style="color: red !important">Numero de tarjeta erroneo</small>
                 <!-- The checkmark ".card-valid" used is a custom font from icomoon.io --->
                 <div class="card-valid">&#xea10;</div>
             </div>
@@ -36,7 +55,7 @@ https://www.cssscript.com/minimal-credit-card-input-validation-library-creditcar
 
                 <div class="expiration">
                     <aside>Fecha de vencimiento</aside>
-                    <input onkeyup="$cc.expiry.call(this, event)" maxlength="7" placeholder="mm/yyyy" />
+                    <input maxlength="7" placeholder="mm/yyyy" />
                 </div>
 
                 <div class="cvv">
